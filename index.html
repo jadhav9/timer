@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>until pillu's here</title>
+  <meta name="theme-color" content="#f3efe7" />
+  <style>
+    :root {
+      --bg: #f3efe7;
+      --text: #AF2A58;
+      --muted: #77736b;
+      --line: rgba(23, 23, 20, 0.13);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      overflow: hidden;
+    }
+
+    main {
+      min-height: 100vh;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: clamp(28px, 5vw, 72px);
+    }
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 24px;
+    }
+
+    .eyebrow {
+      margin: 0;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .center {
+      width: 100%;
+      max-width: 1300px;
+      margin: auto 0;
+      padding: 8vh 0;
+    }
+
+    h1 {
+      margin: 0 0 clamp(38px, 7vh, 76px);
+      font-size: clamp(54px, 10vw, 150px);
+      line-height: 0.88;
+      font-weight: 400;
+      letter-spacing: -0.065em;
+      max-width: 1000px;
+    }
+
+    .countdown {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .unit {
+      padding: clamp(20px, 3vw, 38px) clamp(10px, 2vw, 28px);
+      border-left: 1px solid var(--line);
+    }
+
+    .unit:first-child { border-left: 0; }
+
+    .number {
+      display: block;
+      font-variant-numeric: tabular-nums;
+      font-size: clamp(42px, 7vw, 100px);
+      line-height: 0.95;
+      letter-spacing: -0.055em;
+      font-weight: 400;
+    }
+
+    .label {
+      display: block;
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 24px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    .bottom p { margin: 0; }
+
+    .heart {
+      color: var(--text);
+      font-size: 16px;
+    }
+
+    #done {
+      display: none;
+      font-size: clamp(54px, 10vw, 150px);
+      line-height: 0.88;
+      letter-spacing: -0.065em;
+      font-weight: 400;
+    }
+
+    @media (max-width: 700px) {
+      body { overflow: auto; }
+
+      main {
+        min-height: 100svh;
+        padding: 24px;
+      }
+
+      .top {
+        align-items: flex-start;
+      }
+
+      .center {
+        padding: 12vh 0;
+      }
+
+      h1 {
+        font-size: clamp(52px, 16vw, 100px);
+        margin-bottom: 48px;
+      }
+
+      .countdown {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .unit {
+        border-left: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .unit:nth-child(odd) {
+        border-right: 1px solid var(--line);
+      }
+
+      .unit:nth-last-child(-n+2) {
+        border-bottom: 0;
+      }
+
+      .number {
+        font-size: clamp(48px, 15vw, 80px);
+      }
+
+      .bottom {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <header class="top">
+      <p class="eyebrow">a little timer</p>
+    </header>
+
+    <section class="center">
+      <h1 id="title">until pillu's<br>here.</h1>
+
+      <div id="countdown" class="countdown" aria-label="Countdown">
+        <div class="unit">
+          <span id="days" class="number">00</span>
+          <span class="label">days</span>
+        </div>
+        <div class="unit">
+          <span id="hours" class="number">00</span>
+          <span class="label">hours</span>
+        </div>
+        <div class="unit">
+          <span id="minutes" class="number">00</span>
+          <span class="label">minutes</span>
+        </div>
+        <div class="unit">
+          <span id="seconds" class="number">00</span>
+          <span class="label">seconds</span>
+        </div>
+      </div>
+
+      <div id="done">pillu's here.<br><span class="heart">♡</span></div>
+    </section>
+
+    <footer class="bottom">
+      <p>landing · 03:05<br>countdown ends · 03:20</p>
+      <p>12 september 2026<br>bengaluru, india</p>
+    </footer>
+  </main>
+
+  <script>
+    // Scheduled landing: 12 September 2026, 03:05 IST.
+    // The timer intentionally adds 15 minutes.
+    const target = new Date("2026-09-12T03:20:00+05:30").getTime();
+
+    const daysEl = document.getElementById("days");
+    const hoursEl = document.getElementById("hours");
+    const minutesEl = document.getElementById("minutes");
+    const secondsEl = document.getElementById("seconds");
+    const countdownEl = document.getElementById("countdown");
+    const titleEl = document.getElementById("title");
+    const doneEl = document.getElementById("done");
+
+    const pad = n => String(n).padStart(2, "0");
+
+    function updateTimer() {
+      const remaining = target - Date.now();
+
+      if (remaining <= 0) {
+        daysEl.textContent = "00";
+        hoursEl.textContent = "00";
+        minutesEl.textContent = "00";
+        secondsEl.textContent = "00";
+        countdownEl.style.display = "none";
+        titleEl.style.display = "none";
+        doneEl.style.display = "block";
+        document.title = "pillu's here ♡";
+        return;
+      }
+
+      const totalSeconds = Math.floor(remaining / 1000);
+      const days = Math.floor(totalSeconds / 86400);
+      const hours = Math.floor((totalSeconds % 86400) / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+
+      daysEl.textContent = pad(days);
+      hoursEl.textContent = pad(hours);
+      minutesEl.textContent = pad(minutes);
+      secondsEl.textContent = pad(seconds);
+    }
+
+    updateTimer();
+    setInterval(updateTimer, 250);
+  </script>
+</body>
+</html>
